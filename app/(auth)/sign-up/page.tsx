@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import client from "@/supabase/client";
 
 const SignUpPage = () => {
-    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -26,34 +25,34 @@ const SignUpPage = () => {
                     email,
                     password,
                     options: {
-                        data: { name },
-                        emailRedirectTo: `${process.env.NEXT_PUBLIC_SIGNUP_EMAIL_REDIRECT_URL}`,
+                        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/onboarding/name`,
                     },
                 });
 
             if (authError) {
                 toast.error(authError.message);
+                setIsLoading(false);
                 return;
             }
 
             if (authData.user) {
-                const { error: profileError } = await client
+                const { error: insertError } = await client
                     .from("users")
-                    .insert({
-                        id: authData.user.id,
-                        email: email,
-                        name: name,
-                    });
+                    .upsert(
+                        { id: authData.user.id, email: authData.user.email },
+                        { onConflict: "id" }
+                    );
 
-                if (profileError) {
+                if (insertError) {
                     toast.error("Failed to create user profile");
+                    setIsLoading(false);
                     return;
                 }
             }
 
-            toast.success("Check your email for verification.");
-        } catch (error) {
-            toast.error("An unexpected error occurred");
+            toast.success("Check your email to verify your account");
+        } catch (err) {
+            toast.error("Something went wrong");
         } finally {
             setIsLoading(false);
         }
@@ -73,18 +72,6 @@ const SignUpPage = () => {
 
                 <form onSubmit={handleSignUp} className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="name">Name</Label>
-                        <Input
-                            id="name"
-                            type="text"
-                            placeholder="John Doe"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                        />
-                    </div>
-
-                    <div className="space-y-2">
                         <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
@@ -102,6 +89,7 @@ const SignUpPage = () => {
                             <Input
                                 id="password"
                                 type={showPassword ? "text" : "password"}
+                                placeholder="********"
                                 value={password}
                                 className="pr-8"
                                 onChange={(e) => setPassword(e.target.value)}

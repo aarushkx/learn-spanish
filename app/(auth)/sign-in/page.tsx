@@ -56,7 +56,7 @@ const SignInPage = () => {
                         <Input
                             id="email"
                             type="email"
-                            placeholder="name@example.com"
+                            placeholder="johndoe@example.com"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
@@ -69,6 +69,7 @@ const SignInPage = () => {
                             <Input
                                 id="password"
                                 type={showPassword ? "text" : "password"}
+                                placeholder="********"
                                 value={password}
                                 className="pr-8"
                                 onChange={(e) => setPassword(e.target.value)}
