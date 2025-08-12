@@ -5,7 +5,7 @@ import { redirect, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Loader from "@/components/custom/Loader";
+import Loader from "@/components/custom/loader";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import client from "@/supabase/client";
@@ -21,45 +21,17 @@ const NamePage = () => {
     if (isLoading) return <Loader />;
     if (!user) redirect("/sign-in");
 
-    // const saveName = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     setIsSaving(true);
-
-    //     try {
-    //         const {
-    //             data: { user },
-    //         } = await client.auth.getUser();
-
-    //         if (!user) {
-    //             toast.error("You are not authenticated");
-    //             return;
-    //         }
-
-    //         const { error } = await client
-    //             .from("users")
-    //             .update({ name })
-    //             .eq("id", user.id);
-
-    //         if (error) toast.error(error.message);
-    //         else router.push("/onboarding/avatar");
-    //     } catch (err) {
-    //         toast.error("An unexpected error occurred");
-    //     } finally {
-    //         setIsSaving(false);
-    //     }
-    // };
-
     const saveName = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSaving(true);
 
         try {
-            const { data: sessionData } = await client.auth.getSession();
-            const user = sessionData?.session?.user;
+            const {
+                data: { user },
+            } = await client.auth.getUser();
 
             if (!user) {
                 toast.error("You are not authenticated");
-                setIsSaving(false);
                 return;
             }
 
@@ -68,12 +40,9 @@ const NamePage = () => {
                 .update({ name })
                 .eq("id", user.id);
 
-            if (error) {
-                toast.error(error.message);
-            } else {
-                router.push("/onboarding/avatar");
-            }
-        } catch {
+            if (error) toast.error(error.message);
+            else router.push("/onboarding/avatar");
+        } catch (err) {
             toast.error("An unexpected error occurred");
         } finally {
             setIsSaving(false);
@@ -81,7 +50,7 @@ const NamePage = () => {
     };
 
     return (
-        <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center px-4">
             <div className="w-full max-w-sm space-y-6">
                 <div className="space-y-2 text-center">
                     <h1 className="text-2xl font-semibold">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,8 +8,12 @@ import { Label } from "@/components/ui/label";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import client from "@/supabase/client";
+import { redirect } from "next/navigation";
+import useAuth from "@/hooks/useAuth";
 
 const SignUpPage = () => {
+    const { user } = useAuth();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
@@ -58,8 +62,12 @@ const SignUpPage = () => {
         }
     };
 
+    useEffect(() => {
+        if (user) redirect("/dashboard");
+    }, [user]);
+
     return (
-        <div className="flex min-h-screen items-center justify-center px-4">
+        <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4">
             <div className="w-full max-w-sm space-y-6">
                 <div className="space-y-2 text-center">
                     <h1 className="text-2xl font-semibold">
