@@ -10,7 +10,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { User, LogOut, LayoutDashboard } from "lucide-react";
+import { User, LogOut, LayoutDashboard, ShieldPlus } from "lucide-react";
 import { toast } from "sonner";
 import useAuth from "@/hooks/useAuth";
 import client from "@/supabase/client";
@@ -26,7 +26,7 @@ const UserButton = () => {
 
         const { data, error } = await client
             .from("users")
-            .select("id, name, email, avatar")
+            .select("id, name, email, avatar, role")
             .eq("id", user.id)
             .single();
 
@@ -108,6 +108,14 @@ const UserButton = () => {
                         <LayoutDashboard className="mr-1 h-4 w-4" />
                         <span>Dashboard</span>
                     </DropdownMenuItem>
+                    {profile?.role === "admin" && (
+                        <DropdownMenuItem
+                            onClick={() => router.push("/admin/lessons/add")}
+                        >
+                            <ShieldPlus className="mr-1 h-4 w-4" />
+                            <span>Admin</span>
+                        </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={() => router.push("/profile")}>
                         <User className="mr-1 h-4 w-4" />
                         <span>Profile</span>
