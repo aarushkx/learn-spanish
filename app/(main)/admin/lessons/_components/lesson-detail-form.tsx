@@ -20,15 +20,15 @@ const LessonDetailsForm = ({
     return (
         <div className="space-y-6">
             <div>
-                <h2 className="text-xl font-semibold tracking-tight mb-4">
-                    Lesson Details
-                </h2>
+                <h2 className="text-xl font-semibold mb-4">Lesson Details</h2>
             </div>
 
             <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                        <Label htmlFor="title">Lesson Title *</Label>
+                        <Label htmlFor="title">
+                            Lesson Title<span className="text-red-500">*</span>
+                        </Label>
                         <Input
                             id="title"
                             value={lessonForm.title}
@@ -41,7 +41,9 @@ const LessonDetailsForm = ({
                     </div>
 
                     <div className="space-y-2">
-                        <Label htmlFor="order_index">Order Index *</Label>
+                        <Label htmlFor="order_index">
+                            Order Index<span className="text-red-500">*</span>
+                        </Label>
                         <Input
                             id="order_index"
                             type="number"
@@ -59,7 +61,9 @@ const LessonDetailsForm = ({
                 </div>
 
                 <div className="space-y-2">
-                    <Label htmlFor="description">Description *</Label>
+                    <Label htmlFor="description">
+                        Description<span className="text-red-500">*</span>
+                    </Label>
                     <Textarea
                         id="description"
                         value={lessonForm.description}

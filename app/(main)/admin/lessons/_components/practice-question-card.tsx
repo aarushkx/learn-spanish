@@ -54,7 +54,9 @@ const PracticeQuestionCard = ({
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor={`question-${practiceIndex}`}>Question *</Label>
+                <Label htmlFor={`question-${practiceIndex}`}>
+                    Question<span className="text-red-500">*</span>
+                </Label>
                 <Textarea
                     id={`question-${practiceIndex}`}
                     value={practice.question}
@@ -74,7 +76,9 @@ const PracticeQuestionCard = ({
             {/* Answers Section */}
             <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                    <Label>Correct Answers *</Label>
+                    <Label>
+                        Correct Answers<span className="text-red-500">*</span>
+                    </Label>
                     <Button
                         type="button"
                         variant="ghost"
@@ -136,7 +140,7 @@ const PracticeQuestionCard = ({
                                 e.target.files?.[0] || null
                             )
                         }
-                        className="file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
+                        className="file:mr-4 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-medium file:bg-secondary file:text-secondary-foreground hover:file:bg-secondary/80"
                     />
                     {practice.image && (
                         <p className="text-xs text-muted-foreground">

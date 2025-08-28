@@ -16,11 +16,13 @@ export type PracticeQuestion = {
 };
 
 export type Lesson = {
+    id: string;
     title: string;
     description: string;
     order_index: number;
     image: string;
     practices: PracticeQuestion[];
+    created_at: any;
 };
 
 export type Progress = {
