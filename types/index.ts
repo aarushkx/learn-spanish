@@ -21,7 +21,6 @@ export type Lesson = {
     description: string;
     order_index: number;
     image: string;
-    practices: PracticeQuestion[];
     created_at: any;
 };
 
